@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -25,6 +29,7 @@ public class CheckActivity extends AppCompatActivity {
 
     private TextView goodAnswerText, badAnswerText, questionText;
     private RadioGroup answersGroup;
+    private LinearLayout answerLiner;
     private List<Question> questionList = new ArrayList<>();
     private List<Answer> currentAnswerList = new ArrayList<>();
     private int number;
@@ -34,6 +39,16 @@ public class CheckActivity extends AppCompatActivity {
     private static final String START = "start";
     private static final String FINISH = "finish";
     private Interval interval;
+     private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            if (msg.what == 100) {
+
+                checkAnswer((Integer) msg.obj);
+            }
+        }
+    };
 
     public static Intent createIntent(Context context, Interval interval) {
         Intent intent = new Intent(context, CheckActivity.class);
@@ -49,9 +64,9 @@ public class CheckActivity extends AppCompatActivity {
         setContentView(R.layout.activity_check);
         interval = new Interval();
         interval.setCategory(getIntent().getStringExtra(CATEGORY));
-        interval.setStart(getIntent().getIntExtra(START,1));
-        interval.setFinish(getIntent().getIntExtra(FINISH,26));
-        setTitle(String.format(getString(R.string.title_interval_holder),interval.getStart(),interval.getFinish()));
+        interval.setStart(getIntent().getIntExtra(START, 1));
+        interval.setFinish(getIntent().getIntExtra(FINISH, 26));
+        setTitle(String.format(getString(R.string.title_interval_holder), interval.getStart(), interval.getFinish()));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         goodAnswerText = findViewById(R.id.check_activity_good_text_view);
@@ -62,11 +77,11 @@ public class CheckActivity extends AppCompatActivity {
         answersGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                System.out.println(checkedId);
-                checkAnswer(checkedId);
+                handler.removeMessages(100);
+                handler.sendMessageDelayed(handler.obtainMessage(100, checkedId), 500);
+
             }
         });
-
         initQuestions();
         start();
     }
@@ -123,6 +138,11 @@ public class CheckActivity extends AppCompatActivity {
         questionText.setText(question.getBody());
         setImage();
         currentAnswerList = question.getAnswers();
+
+        createBoxes();
+    }
+
+    private void createBoxes() {
         answersGroup.removeAllViews();
         int id = 0;
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
