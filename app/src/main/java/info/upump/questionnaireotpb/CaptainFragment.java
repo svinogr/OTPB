@@ -1,6 +1,7 @@
 package info.upump.questionnaireotpb;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -66,6 +70,7 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         View root = inflater.inflate(R.layout.fragment_serch_category, container, false);
 
         searchView = root.findViewById(R.id.search_view);
@@ -86,7 +91,7 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
         progressBar = root.findViewById(R.id.progressSearchCategory);
         progressBar.setVisibility(progressBar.VISIBLE);
 
-       linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView = root.findViewById(R.id.listQuestionSearchCategory);
         recyclerView.setHasFixedSize(true);
@@ -135,6 +140,38 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        getActivity(). setTitle(getString(R.string.title_cap_fr));
+        getActivity().setTitle(getString(R.string.title_cap_fr));
+    }
+
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.clear();
+        inflater.inflate(R.menu.main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Intent intent;
+        switch (id){
+            case R.id.mailto:
+                intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_mail)});
+                intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.mail_subject));
+                intent.putExtra(Intent.EXTRA_TEXT, "");
+                //email.setType("message/rfc822");
+                intent.setType("plain/text");
+                startActivity(Intent.createChooser(intent, "Choose an Email client :"));
+                break;
+            case R.id.checkit:
+                intent = ChooseInterval.createIntent(getContext(),CATEGORY);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

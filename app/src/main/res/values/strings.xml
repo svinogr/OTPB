@@ -12,7 +12,7 @@
     <string name="nav_nav_captain">Общие требования промышленной безопасности</string>
     <string name="nav_senior_assistant">Старшие помощники капитана</string>
     <string name="nav_watch_mate_assistant">Вахтенные помощники капитана</string>
-    <string name="mailto">Обратная связь</string>
+    <string name="mailto">Email</string>
     <string name="number_search">№</string>
     <string name="drawer_down_text">"Тест. Ростехнадзор.</string>
     <string name="drawer_up_text">Общие требования промышленной безопасности</string>
@@ -25,14 +25,16 @@
     <string name="label_bad_answer">Неправильно:</string>
     <string name="label_question">Вопроc:</string>
     <string name="label_answer">Выберите вариант:</string>
-    <string name="title_check_acrivity">Проверь себя</string>
     <string name="number_question">Вопрос номер: %1$d</string>
     <string name="answer_text">- %1$s</string>
     <string name="title_result">Ваш результат</string>
-    <string name="title_count_result">правильных ответов</string>
+    <string name="title_count_result">Правильных ответов: %1$s </string>
     <string name="title_finish">Закончить</string>
     <string name="title_restart">Повторить</string>
     <string name="toast_right">Правильный ответ</string>
     <string name="toast_false">Неправильный ответ</string>
-    <string name="title_cap_fr">OТПБ</string>
+    <string name="title_cap_fr">OТПБ</string><string name="title_choose_questions">Тестирование</string>
+    <string name="title_interval_holder">Вопросы c %1$d по %2$d</string>
+    <string name="title_interval_card">Список вопросов:</string>
+    <string name="interval_title_text">Часть %1d</string>
 </resources>

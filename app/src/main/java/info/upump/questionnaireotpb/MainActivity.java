@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -64,39 +63,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Intent intent;
-        switch (id){
-            case R.id.mailto:
-                intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_mail)});
-                intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.mail_subject));
-                intent.putExtra(Intent.EXTRA_TEXT, "");
-                //email.setType("message/rfc822");
-                intent.setType("plain/text");
-                startActivity(Intent.createChooser(intent, "Choose an Email client :"));
-                break;
-            case R.id.checkit:
-                intent = CheckActivity.createIntent(this, "капитан");
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
        return true;
     }
+
 }

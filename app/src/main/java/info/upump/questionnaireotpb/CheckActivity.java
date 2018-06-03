@@ -18,6 +18,7 @@ import java.util.List;
 
 import info.upump.questionnaireotpb.db.QuestionDAO;
 import info.upump.questionnaireotpb.entity.Answer;
+import info.upump.questionnaireotpb.entity.Interval;
 import info.upump.questionnaireotpb.entity.Question;
 
 public class CheckActivity extends AppCompatActivity {
@@ -29,12 +30,16 @@ public class CheckActivity extends AppCompatActivity {
     private int number;
     private int good;
     private int bad;
-    private String category;
     private static final String CATEGORY = "cat";
+    private static final String START = "start";
+    private static final String FINISH = "finish";
+    private Interval interval;
 
-    public static Intent createIntent(Context context, String category) {
+    public static Intent createIntent(Context context, Interval interval) {
         Intent intent = new Intent(context, CheckActivity.class);
-        intent.putExtra(CATEGORY, category);
+        intent.putExtra(START, interval.getStart());
+        intent.putExtra(FINISH, interval.getFinish());
+        intent.putExtra(CATEGORY, interval.getCategory());
         return intent;
     }
 
@@ -42,7 +47,11 @@ public class CheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
-        setTitle(getString(R.string.title_check_acrivity));
+        interval = new Interval();
+        interval.setCategory(getIntent().getStringExtra(CATEGORY));
+        interval.setStart(getIntent().getIntExtra(START,1));
+        interval.setFinish(getIntent().getIntExtra(FINISH,26));
+        setTitle(String.format(getString(R.string.title_interval_holder),interval.getStart(),interval.getFinish()));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         goodAnswerText = findViewById(R.id.check_activity_good_text_view);
@@ -58,8 +67,6 @@ public class CheckActivity extends AppCompatActivity {
             }
         });
 
-        category = getIntent().getStringExtra(CATEGORY);
-
         initQuestions();
         start();
     }
@@ -74,7 +81,7 @@ public class CheckActivity extends AppCompatActivity {
             badAnswerText.setText(String.valueOf(++bad));
             s = getString(R.string.toast_false);
         }
-        Toast.makeText(this, s,Toast.LENGTH_SHORT ).show();
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
         if (number < questionList.size() - 1) {
             start();
         } else startResult();
@@ -83,7 +90,7 @@ public class CheckActivity extends AppCompatActivity {
 
     private void startResult() {
         final String title = getString(R.string.title_result);
-        String message = goodAnswerText.getText() + getString(R.string.title_count_result);
+        String message = String.format(getString(R.string.title_count_result), goodAnswerText.getText().toString());
         String button1String = getString(R.string.title_finish);
         String button2String = getString(R.string.title_restart);
 
@@ -143,7 +150,7 @@ public class CheckActivity extends AppCompatActivity {
         badAnswerText.setText(String.valueOf(bad));
         goodAnswerText.setText(String.valueOf(good));
         QuestionDAO questionDAO = new QuestionDAO(this);
-        questionList = questionDAO.getQuestions(category);
+        questionList = questionDAO.getQuestionsInterval(interval);
     }
 
     private void exit() {
