@@ -23,7 +23,8 @@
         <activity
             android:name=".CheckActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ChooseInterval"></activity>
+        <activity android:name=".ChooseInterval"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

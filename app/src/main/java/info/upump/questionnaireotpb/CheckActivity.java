@@ -152,7 +152,7 @@ public class CheckActivity extends AppCompatActivity {
             radioButton.setLayoutParams(lp);
             radioButton.setText(a.getBody());
             radioButton.setPadding(4, 4, 4, 4);
-            radioButton.setTextColor(getResources().getColor(R.color.cardview_dark_background));
+            radioButton.setTextColor(getResources().getColor(R.color.colorText));
             radioButton.setId(id);
             answersGroup.addView(radioButton);
             id++;

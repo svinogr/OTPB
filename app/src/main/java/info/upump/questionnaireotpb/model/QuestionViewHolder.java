@@ -82,7 +82,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
                 case -1:
                     break;
             }
-            text.setTextColor(Color.parseColor("#FF424242"));
+            text.setTextColor(context.getResources().getColor(R.color.colorText));
             text.setText(String.format(context.getString(R.string.answer_text), answer.getBody()));
             linearLayoutAnswer.addView(text);
         }
