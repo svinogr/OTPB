@@ -33,7 +33,6 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         number = itemView.findViewById(R.id.number);
         questionBody = itemView.findViewById(R.id.question);
         img = itemView.findViewById(R.id.img);
-        comment = itemView.findViewById(R.id.comment);
         comDiv = itemView.findViewById(R.id.com_div);
     }
 
